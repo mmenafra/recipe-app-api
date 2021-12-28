@@ -4,6 +4,7 @@ services:
   app:
     build:
       context: .
+    image: recipe:lastest
     ports:
       - "8000:8000"
     volumes:
@@ -27,4 +28,20 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
+  
+  test:
+    image: recipe:lastest
+    environment:
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASSWORD=secret
+    depends_on:
+      - db
+    command: >
+      sh -c "python manage.py test"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./app:/app
   
