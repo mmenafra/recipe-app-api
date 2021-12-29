@@ -56,7 +56,7 @@ class PrivateTagsApiTests(TestCase):
         Tag.objects.create(user=user2, name='Fruity')
         tag = Tag.objects.create(user=self.user, name='Comfort Food')
 
-        res = self.client.get(TAGS_URL)
+        res = self.client.get(TAGS_URL, data={'fields': "id, name"})
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
